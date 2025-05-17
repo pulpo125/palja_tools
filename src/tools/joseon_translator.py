@@ -27,12 +27,12 @@ def build_chain(
     prompt: str = JOSEON_TRANSLATE_PROMPT, input_variables: list = ["input"]
 ):
     """
-    조선실록체 변환기 도구를 생성하는 함수
+    조선실록체 변환기 체인 빌더
     Args:
         prompt (str): 조선실록체 변환기 도구의 프롬프트
         input_variables (list): 입력 변수 목록
     Returns:
-        chain: 조선실록체 변환기 도구
+        chain: 조선실록체 변환기 체인
     """
 
     # llm
