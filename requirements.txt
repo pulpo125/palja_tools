@@ -1,0 +1,6 @@
+pandas==2.2.3
+easydict==1.13
+langchain==0.3.25
+langchain-openai==0.3.17
+langchain-community==0.3.24
+streamlit==1.45.1

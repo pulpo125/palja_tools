@@ -1,0 +1,4 @@
+openai:
+  api_key: example_api_key
+  llm_model: gpt-4.1-nano
+  llm_max_tokens: 1024
