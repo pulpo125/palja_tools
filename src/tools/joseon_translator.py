@@ -1,5 +1,5 @@
 from textwrap import dedent
-from src.utils import get_chat_llm
+from src.utils import get_openai_chat_llm_client
 from langchain_core.prompts import (
     ChatPromptTemplate,
     SystemMessagePromptTemplate,
@@ -15,7 +15,7 @@ def run_joseon_translator(input: str) -> str:
     :return: The translated text.
     """
     # llm
-    llm = get_chat_llm()
+    llm = get_openai_chat_llm_client()
 
     # prompt
     JOSEON_TRANSLATE_PROMPT = dedent(
