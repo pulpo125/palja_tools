@@ -1,0 +1,27 @@
+[server]
+enableStaticServing = true
+
+[[theme.fontFaces]]
+family = "MaruBuriBold"
+url = "app/static/MaruBuri-Bold.ttf"
+
+[[theme.fontFaces]]
+family = "MaruBuriRegular"
+url = "app/static/MaruBuri-Regular.ttf"
+
+[theme]
+primaryColor = "#bb5a38"
+backgroundColor = "#f4f3ed"
+secondaryBackgroundColor = "#ecebe3"
+textColor = "#3d3a2a"
+linkColor = "#3d3a2a"
+borderColor = "#d3d2ca"
+showWidgetBorder = true
+baseRadius = "0.6rem"
+font = "MaruBuriRegular"
+headingFont = "MaruBuriBold"
+showSidebarBorder = true
+
+[theme.sidebar]
+backgroundColor = "#e8e7dd"
+secondaryBackgroundColor = "#ecebe3"
