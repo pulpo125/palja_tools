@@ -6,6 +6,8 @@ from langchain_core.prompts import (
     HumanMessagePromptTemplate,
 )
 
+from src.decorators import timer
+
 
 # prompt
 JOSEON_TRANSLATE_PROMPT = dedent(
@@ -55,6 +57,7 @@ def build_chain(
 
 
 # run
+@timer
 def run(input: str) -> str:
     """
     조선실록체 변환기 도구를 실행하는 함수
@@ -63,9 +66,10 @@ def run(input: str) -> str:
     Returns:
         str: 변환된 조선실록체 문장
     """
-
     # build chain
     chain = build_chain()
+
+    # invoke chain
     response = chain.invoke({"input": input})
 
     return response.content
