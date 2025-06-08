@@ -194,7 +194,7 @@ with col1:
             except Exception as e:
                 # pyperclip이 없는 경우
                 st.info("💡 위 텍스트를 드래그해서 복사(Ctrl + C)하세요")
-                log_error("복사하기 오류: {e}")
+                log_error(f"복사하기 오류: {e}")
         else:
             st.warning("⚠️ 복사할 결과가 없습니다")
 
