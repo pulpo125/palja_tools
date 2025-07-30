@@ -3,3 +3,7 @@ openai:
   llm_model: gpt-4o-mini
   # llm_model: gpt-4.1-nano
   llm_max_tokens: 1024
+
+streamlit: 
+  llm_dry_run_mode: false # LLM 작업 수행 없이 시뮬레이션 하는 설정 변수 입니다. (true: 랜덤 숫자 출력, false: LLM 호출하여 결과 출력)
+  llm_dry_run_repsponse: "이것은 테스트 응답입니다." # LLM 작업 수행 없이 시뮬레이션 할 때 출력할 값입니다.
