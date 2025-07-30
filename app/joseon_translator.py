@@ -5,11 +5,10 @@
 import streamlit as st
 from PIL import Image
 import os
-import pyperclip
 
 from src.tools.joseon_translator import run
 from src.utils import log_info, log_error, log_warning
-
+from app import streamlit_cfg
 
 # 세션 상태 초기화
 if "result_text" not in st.session_state:
@@ -155,7 +154,13 @@ if st.session_state.is_converting:
         log_info("조선왕조실록체 변환 시작")
 
         # run
-        response = run(input_text)
+        if streamlit_cfg.llm_dry_run_mode:
+            # LLM 작업 수행 없이 시뮬레이션
+            response = streamlit_cfg.llm_dry_run_repsponse
+        else:
+            # 실제 LLM 호출
+            response = run(input_text)
+
         log_info({"input": input_text, "output": response})
 
         # 결과 저장 및 로딩 상태 해제
@@ -188,7 +193,8 @@ with col1:
         if st.session_state.result_text:
             try:
                 # 클립보드에 복사
-                pyperclip.copy(st.session_state.result_text)
+                # TODO: pyperclip 모듈을 사용하지 않고 클립보드 복사 기능 구현
+                raise Exception("복사하기 기능이 구현되지 않았습니다.")
                 st.success("클립보드에 복사 완료! 🎉")
 
             except Exception as e:
