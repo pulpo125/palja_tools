@@ -5,6 +5,7 @@
 import streamlit as st
 from PIL import Image
 import os
+from st_copy import copy_button
 
 from src.tools.joseon_translator import run
 from src.utils import log_info, log_error, log_warning
@@ -15,6 +16,7 @@ if "result_text" not in st.session_state:
     st.session_state.result_text = ""
 if "is_converting" not in st.session_state:
     st.session_state.is_converting = False
+
 # 커스텀 CSS
 st.markdown(
     """
@@ -64,10 +66,6 @@ st.markdown(
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
     }
-    .tiger-container {
-        text-align: center;
-        margin: 30px 0;
-    }
 </style>
 """,
     unsafe_allow_html=True,
@@ -80,7 +78,7 @@ st.markdown(
     '<h1 class="main-header">조선왕조실록체 변환기</h1>', unsafe_allow_html=True
 )
 st.markdown(
-    '<p class="sub-header">현대어를 고풍스러운 조선왕조실록체로 변환해보세요</p>',
+    '<p class="sub-header">현대어를 고풍스러운 조선왕조실록체로 변환해보세요.</p>',
     unsafe_allow_html=True,
 )
 
@@ -103,13 +101,22 @@ col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
     convert_button = st.button("변환하기", use_container_width=True, type="primary")
 
-
 # ================
 # 결과 섹션
 # ================
 
 
 st.subheader("결과")
+col1, col2 = st.columns([15, 2])
+with col1:
+    st.caption(
+        "결과를 복사하기 위해, 옆에 '복사 버튼'을 클릭하여 클립보드에 저장하세요."
+    )
+with col2:
+    if st.session_state.result_text:
+        copy_button(
+            text=st.session_state.result_text,
+        )
 
 # 결과창
 if st.session_state.is_converting:
@@ -155,10 +162,8 @@ if st.session_state.is_converting:
 
         # run
         if streamlit_cfg.llm_dry_run_mode:
-            # LLM 작업 수행 없이 시뮬레이션
             response = streamlit_cfg.llm_dry_run_repsponse
         else:
-            # 실제 LLM 호출
             response = run(input_text)
 
         log_info({"input": input_text, "output": response})
@@ -181,30 +186,20 @@ if st.session_state.is_converting:
 # 버튼과 호랑이 이미지 섹션
 # ===================
 
+# 새로 시작 버튼
+col1, col2, col3 = st.columns([1, 2, 1])
+with col2:
+    if st.button("초기화", use_container_width=True):
+        if "input_text" in st.session_state:
+            del st.session_state.input_text
+            st.session_state.input_text = ""
 
-st.markdown('<div class="tiger-container">', unsafe_allow_html=True)
+        st.session_state.result_text = ""
+        st.session_state.is_converting = False
+        st.rerun()
 
-# 버튼과 호랑이를 한 줄에 배치
+# 호랑이 이미지
 col1, col2, col3 = st.columns([1, 1, 1])
-
-# 복사 버튼 (왼쪽)
-with col1:
-    if st.button("복사하기", use_container_width=True):
-        if st.session_state.result_text:
-            try:
-                # 클립보드에 복사
-                # TODO: pyperclip 모듈을 사용하지 않고 클립보드 복사 기능 구현
-                raise Exception("복사하기 기능이 구현되지 않았습니다.")
-                st.success("클립보드에 복사 완료! 🎉")
-
-            except Exception as e:
-                # pyperclip이 없는 경우
-                st.info("💡 위 텍스트를 드래그해서 복사(Ctrl + C)하세요")
-                log_error(f"복사하기 오류: {e}")
-        else:
-            st.warning("⚠️ 복사할 결과가 없습니다")
-
-# 호랑이 이미지 (가운데)
 with col2:
     if os.path.exists("./app/static/img/tiger.png"):
         try:
@@ -219,16 +214,3 @@ with col2:
 
     else:
         st.markdown("<div style='font-size: 150px;'>🐅</div>", unsafe_allow_html=True)
-
-# 새로 시작 버튼 (오른쪽)
-with col3:
-    if st.button("새로 시작", use_container_width=True):
-        if "input_text" in st.session_state:
-            del st.session_state.input_text
-            st.session_state.input_text = ""
-
-        st.session_state.result_text = ""
-        st.session_state.is_converting = False
-        st.rerun()
-
-st.markdown("</div>", unsafe_allow_html=True)
